@@ -77,6 +77,8 @@ git branch [branchname]
 git checkout [branchname]
 // 合并分支
 git merge [branchname]
+// 删除分支
+git branch -d [branchname]
 ```
 
 注意：
