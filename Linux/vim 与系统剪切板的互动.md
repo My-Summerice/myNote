@@ -1,0 +1,22 @@
+# vim 与 系统剪切板 的互动
+
+vim中的复制和粘贴命令分别是y和p，在不需要和系统交互剪贴板数据时还好，一旦要复制外部数据到vim中或者将vim中的数据复制到外部，这两个命令就无效了，只能用鼠标选中再右键复制粘贴。虽然和windows下的Ctrl C、Ctrl V不同，但vim可以通过配置实现和系统剪贴板的“沟通”。
+前提
+
+开始前需要先查看vim是否已经支持clipboard功能，使用vim --version | grep clipboard命令查看，已经支持时其前有+号
+
+image-20210324203004639
+
+如果其前为-号，执行sudo apt install vim-gtk安装vim-gtk即可（或者安装gvim，非debian系的系统不是用apt命令，根据系统变动就行，都差不多），安装完成后再执行vim --version | grep clipboard此时应该已经支持clipboard功能。
+配置vim
+
+此时如果在vim外复制了文本，要粘贴到打开的vim文件内，只需在normal模式下（如果不知道当前在哪个模式就先按一次ESC键）执行"*p，注意是三个键连续输入，由于要输入双引号和星号，因此需要先按下Shift键，再分别按下" *（过程中Shift不要放下），最后按下p（小写，此时不要按Shift），如果没问题应该可以将系统剪贴板数据粘贴到vim中；
+
+类似的，要将vim中的数据复制到vim外，需要回到normal模式先按v进入visual模式，移动光标选中目标文本后，在visua模式下执行" + y即可将vim数据复制到系统剪贴板，在vim外执行Ctrl V即可完成数据粘贴。
+
+vim支持自定义快捷键，使用vim打开~/.vimrc文件这是当前用户的vim配置文件，vim会读取配置文件中的内容完成相应的配置，在这个配置文件中添加（中文前的“号是注释）
+
+    vnoremap <C-y> "+y   "支持在Visual模式下，通过C-y复制到系统剪切板
+    nnoremap <C-p> "*p   "支持在normal模式下，通过C-p粘贴系统剪切板
+
+添加完成后按ESC回到normal模式输入:wq保存并退出，此后就可以像Ctrl C、Ctrl V那样愉快地使用Ctrl y和Ctrl p进行复制粘贴了
