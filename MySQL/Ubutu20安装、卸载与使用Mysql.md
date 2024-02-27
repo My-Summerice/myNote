@@ -1,4 +1,4 @@
-# Ubutu20安装、卸载与使用Mysql
+# Ubutu20安装、卸载与使用MySQL
 
 ubuntu20自带有mysql8.0，不用安装直接使用
 
